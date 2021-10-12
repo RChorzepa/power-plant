@@ -38,16 +38,23 @@ namespace PowerPlant.Infrastructure.Persistence.Repositories
             return await DbContext.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public async Task AddAsync(TEntity entity)
+        public async void AddAsync(TEntity entity)
         {
-            await DbContext.Set<TEntity>().AddAsync(entity);
+             DbContext.Set<TEntity>().Add(entity);
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task AddRangeAsync(ICollection<TEntity> entities)
+        public async void AddRangeAsync(ICollection<TEntity> entities)
         {
-            await DbContext.Set<TEntity>().AddRangeAsync(entities);
-            await DbContext.SaveChangesAsync();
+        try
+            {
+                 DbContext.Set<TEntity>().AddRange(entities);
+                await DbContext.SaveChangesAsync();
+            } 
+            catch(Exception exception)
+            {
+                throw;
+            }
         }
 
     }

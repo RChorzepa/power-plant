@@ -1,35 +1,51 @@
 ﻿using PowerPlant.Core.Contracts;
 using PowerPlant.Core.Entities;
-using PowerPlant.Core.Repositories;
+using PowerPlant.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PowerPlant.Infrastructure.Services.ProductionLogerService
 {
     public class EFProductionLoggerService : IProductionLoggerService
     {
-        private readonly IRepositoryAsync<Production> _productionRepository;
-        private readonly IRepositoryAsync<Notification> _notificationRepository;
 
-        public EFProductionLoggerService(IRepositoryAsync<Production> productionRepository, IRepositoryAsync<Notification> notificationRepository)
+        private readonly IServiceProvider _serviceProvider;
+
+        public EFProductionLoggerService(IServiceProvider serviceProvider)
         {
-            _productionRepository = productionRepository;
-            _notificationRepository = notificationRepository;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task LogMessage(string message)
         {
-            await _notificationRepository.AddAsync(new Notification
+            using(var scope = _serviceProvider.CreateScope())
             {
-                Date = DateTime.Now,
-                Message = message
-            });
+                var dbContext = scope.ServiceProvider.GetService<PowerPlantDbContext>();
+
+                await dbContext.Notifications.AddAsync(new Notification
+                {
+                    Date = DateTime.Now,
+                    Message = message
+                });
+
+                await dbContext.SaveChangesAsync();
+            }
+
+            await Task.CompletedTask;
         }
 
         public async Task LogProduction(ICollection<Production> productions)
         {
-            await _productionRepository.AddRangeAsync(productions);
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<PowerPlantDbContext>();
+
+                await dbContext.Productions.AddRangeAsync(productions);
+                await dbContext.SaveChangesAsync();
+            }
+
         }
     }
 }

@@ -11,15 +11,8 @@ using System.Threading.Tasks;
 
 namespace PowerPlant.Core.Generators
 {
-    public class GeneratorBusConfiguration
-    {
-        public int BatchSize { get; set; }
-        public int Quantity { get; set; }
 
-        public GeneratorConfiguration GeneratorProperties { get; set; }
-    }
-
-    public class GeneratorBus
+    public class GeneratorBus : IGeneratorBus
     {
         private readonly IProductionLoggerService _productionLoggerService;
 
@@ -45,7 +38,7 @@ namespace PowerPlant.Core.Generators
             {
                 Generators.ForEach(_ =>
                 {
-                  _productionLoggerService.LogMessage($"Generator: {_.Id} | {Generators.Count - 1}-  START");
+                    _productionLoggerService.LogMessage($"Generator: {_.Id} | {Generators.Count - 1}-  START");
                     _.Start();
                 });
 
@@ -73,7 +66,6 @@ namespace PowerPlant.Core.Generators
             });
         }
 
-
         public async Task Stop()
         {
             foreach (var item in Generators)
@@ -90,7 +82,7 @@ namespace PowerPlant.Core.Generators
             for (int index = 0; index < _configuration.Quantity; index++)
             {
                 Generators.Add(new Generator(index, _configuration.GeneratorProperties, _cancellationTokenSource.Token));
-            }      
+            }
         }
 
     }

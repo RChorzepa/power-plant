@@ -31,6 +31,7 @@ namespace PowerPlant.Tests
             services.AddScoped<IProductionLoggerService, EFProductionLoggerService>();
             services.Configure<GeneratorBusConfiguration>(opt => configuration.GetSection("Settings:Generator").Bind(opt));
             services.AddSingleton<GeneratorBus>();
+            services.AddSingleton<IGeneratorBus, GeneratorBus>();
             services.AddScoped<IAutoFillDataService, AutoFillDataService>();
         }
     }

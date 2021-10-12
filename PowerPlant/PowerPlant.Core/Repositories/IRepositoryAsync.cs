@@ -13,7 +13,7 @@ namespace PowerPlant.Core.Repositories
         Task<ICollection<TEntity>> GetAsync();
         Task<ICollection<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task AddAsync(TEntity entity);
-        Task AddRangeAsync(ICollection<TEntity> entities);
+        void AddAsync(TEntity entity);
+        void AddRangeAsync(ICollection<TEntity> entities);
     }
 }
