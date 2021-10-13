@@ -10,20 +10,18 @@ namespace PowerPlant.Infrastructure.Services.ProductionLogerService
 {
     public class EFProductionLoggerService : IProductionLoggerService
     {
+        private readonly IServiceProvider _provider;
 
-        private readonly IServiceProvider _serviceProvider;
-
-        public EFProductionLoggerService(IServiceProvider serviceProvider)
+        public EFProductionLoggerService(IServiceProvider provider)
         {
-            _serviceProvider = serviceProvider;
+            _provider = provider;
         }
 
         public async Task LogMessage(string message)
         {
-            using(var scope = _serviceProvider.CreateScope())
+            using (var scope = _provider.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetService<PowerPlantDbContext>();
-
                 await dbContext.Notifications.AddAsync(new Notification
                 {
                     Date = DateTime.Now,
@@ -32,20 +30,17 @@ namespace PowerPlant.Infrastructure.Services.ProductionLogerService
 
                 await dbContext.SaveChangesAsync();
             }
-
-            await Task.CompletedTask;
         }
 
         public async Task LogProduction(ICollection<Production> productions)
         {
-            using (var scope = _serviceProvider.CreateScope())
+            using (var scope = _provider.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetService<PowerPlantDbContext>();
 
                 await dbContext.Productions.AddRangeAsync(productions);
                 await dbContext.SaveChangesAsync();
             }
-
         }
     }
 }

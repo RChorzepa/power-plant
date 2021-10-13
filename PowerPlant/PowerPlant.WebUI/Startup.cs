@@ -5,7 +5,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PowerPlant.Infrastructure;
-using PowerPlant.WebUI.Workers;
+using PowerPlant.WebUI.Infrastructure.HostedService;
+using PowerPlant.WebUI.Infrastructure.Jobs;
+using PowerPlant.WebUI.Infrastructure.Services;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
 
 namespace PowerPlant.WebUI
 {
@@ -31,6 +36,24 @@ namespace PowerPlant.WebUI
             });
 
             services.ConfigureInfrastructure(Configuration);
+
+            #region Quartz
+
+            services.AddSingleton<IJobFactory, JobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            services.AddSingleton<QuartzJobRunner>();
+
+            services.AddScoped<ReportProductionJob>();
+            services.AddSingleton(new JobSchedule(jobType: typeof(ReportProductionJob), cronExpression: "0 0 * * *")); //0/40 * * * * ? -> 40 s
+
+            #endregion
+
+            #region Hosted services
+
+            services.AddHostedService<GeneratorHostedService>();
+            services.AddHostedService<QuartzHostedService>();
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

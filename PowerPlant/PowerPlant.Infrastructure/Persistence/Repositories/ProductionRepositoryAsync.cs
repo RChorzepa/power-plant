@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PowerPlant.Core.Entities;
 using PowerPlant.Core.Generators;
@@ -26,7 +27,7 @@ namespace PowerPlant.Infrastructure.Persistence.Repositories
         /// <param name="year"></param>
         /// <param name="generators">Generators count</param>
         /// <returns></returns>
-        public async Task GenerateFakeData(int year, int generators)
+        public async Task GenerateFakeDataAsync(int year, int generators)
         {
             var logs = new Queue<Production>();
             var from = new DateTime(year, 1, 1, 0, 0, 0, 0);
@@ -93,6 +94,48 @@ namespace PowerPlant.Infrastructure.Persistence.Repositories
                 sqlBulk.DestinationTableName = "Productions";
                 await sqlBulk.WriteToServerAsync(dataTable);
             }
+        }
+
+        public async Task<Dictionary<int, IEnumerable<(DateTime Date, double Avg)>>> GetReportByDatyAsync(DateTime date)
+        {
+            var models = new Dictionary<int, IEnumerable<(DateTime date, double avg)>>();
+
+                var data = await  DbContext.Productions.ToListAsync();
+
+                var groups = data.GroupBy(_ => _.GeneratorId, (id, values) => new
+                {
+                    Id = id,
+                    Values = values.GroupBy(x => x.Date, (date, values) => new
+                    {
+                        Date = date,
+                        Values = values.GroupBy(h => h.Time.Hours, (hour, values) => new
+                        {
+                            Hour = hour,
+                            Values = values
+                        })
+                    })
+                })
+                .OrderBy(_ => _.Id);
+
+                foreach (var group in groups)
+                {
+                    var reportModels = new List<(DateTime date, double avg)>();
+
+                    foreach (var item in group.Values)
+                    {
+                        if (!item.Values.Any()) continue;
+
+                        foreach (var hour in item.Values)
+                        {
+                            reportModels.Add((new DateTime(item.Date.Year, item.Date.Month, item.Date.Day, hour.Hour, 0 , 0), hour.Values.Average(_ => _.Quantity)));
+                        }
+                    }
+
+                    models.Add(group.Id, reportModels.ToList());
+                    reportModels.Clear();
+                }
+
+            return models;
         }
     }
 }

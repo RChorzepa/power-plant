@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PowerPlant.Core.Contracts;
 using PowerPlant.Core.Entities;
@@ -22,6 +23,19 @@ namespace PowerPlant.Core.Generators
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         public List<Generator> Generators { get; private set; } = new List<Generator>();
+
+        //public GeneratorBus(IServiceProvider serviceProvider, IOptions<GeneratorBusConfiguration> configuration)
+        //{
+        //    using (var scope = serviceProvider.CreateScope())
+        //    {
+        //        _productionLoggerService = scope.ServiceProvider.GetService<IProductionLoggerService>(); ;
+        //    }
+
+        //    _onGeneratePower = value => _productions.Enqueue(value);
+        //    _configuration = configuration.Value;
+
+        //    CreateGenerators();
+        //}
 
         public GeneratorBus(IProductionLoggerService productionLoggerService, IOptions<GeneratorBusConfiguration> configuration)
         {

@@ -8,7 +8,7 @@ namespace PowerPlant.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Production> builder)
         {
-            builder.Property(_ => _.Quantity).IsRequired();
+            builder.Property(_ => _.Quantity).IsRequired().HasColumnType("double").HasPrecision(17, 3);
             builder.Property(_ => _.Date).IsRequired();
             builder.Property(_ => _.Time).IsRequired();
         }

@@ -7,7 +7,7 @@ using PowerPlant.Infrastructure.Persistence;
 using PowerPlant.Infrastructure.Persistence.Repositories;
 using PowerPlant.Infrastructure.Services.ProductionLogerService;
 using Microsoft.Extensions.Configuration;
-using PowerPlant.Infrastructure.Services;
+using PowerPlant.Infrastructure.Services.AutoFillDataServices;
 
 namespace PowerPlant.Tests
 {

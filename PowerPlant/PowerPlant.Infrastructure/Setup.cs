@@ -6,7 +6,9 @@ using PowerPlant.Core.Generators;
 using PowerPlant.Core.Repositories;
 using PowerPlant.Infrastructure.Persistence;
 using PowerPlant.Infrastructure.Persistence.Repositories;
-using PowerPlant.Infrastructure.Services;
+using PowerPlant.Infrastructure.Services.AutoFillDataServices;
+using PowerPlant.Infrastructure.Services.MailService;
+using PowerPlant.Infrastructure.Services.MailService.Models;
 using PowerPlant.Infrastructure.Services.ProductionLogerService;
 
 namespace PowerPlant.Infrastructure
@@ -18,9 +20,14 @@ namespace PowerPlant.Infrastructure
             services.AddDbContext<PowerPlantDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("PowerPlantConnectionString")));
 
             services.Configure<GeneratorBusConfiguration>(opt => configuration.GetSection("Settings:Generator").Bind(opt));
+
+            services.AddScoped<IMailService, SmtpMailService>();
+            services.Configure<SmtpConfiguration>(opt => configuration.GetSection("Smtp").Bind(opt));
+
             services.AddScoped(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
-            services.AddScoped<IProductionRepositoryAsync, ProductionRepositoryAsync>();
             services.AddScoped<IAutoFillDataService, AutoFillDataService>();
+
+            services.AddScoped<IProductionRepositoryAsync, ProductionRepositoryAsync>();
 
             services.AddSingleton<IProductionLoggerService, EFProductionLoggerService>();
             services.AddSingleton<IGeneratorBus, GeneratorBus>();

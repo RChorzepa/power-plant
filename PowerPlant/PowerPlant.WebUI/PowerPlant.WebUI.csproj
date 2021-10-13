@@ -7,12 +7,15 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    <UserSecretsId>13694019-49ec-48bf-80f1-359d7d0ccc76</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.19" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
+    <PackageReference Include="Quartz" Version="3.3.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +27,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PowerPlant.Infrastructure\PowerPlant.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BackgroundServices\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

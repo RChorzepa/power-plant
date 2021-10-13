@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PowerPlant.WebUI.Workers;
 
 namespace PowerPlant.WebUI
 {
@@ -17,10 +15,6 @@ namespace PowerPlant.WebUI
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
-            })
-            .ConfigureServices(services =>
-            {
-                services.AddHostedService<GeneratingDataWorker>();
             });
     }
 }

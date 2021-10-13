@@ -20,7 +20,7 @@ namespace PowerPlant.Infrastructure.Persistence.Repositories
 
         public async Task<TEntity> FindAsync(int id)
         {
-            return await  DbContext.Set<TEntity>().FindAsync(id);
+            return await DbContext.Set<TEntity>().FindAsync(id);
         }
 
         public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
@@ -40,22 +40,16 @@ namespace PowerPlant.Infrastructure.Persistence.Repositories
 
         public async void AddAsync(TEntity entity)
         {
-             DbContext.Set<TEntity>().Add(entity);
+            DbContext.Set<TEntity>().Add(entity);
             await DbContext.SaveChangesAsync();
         }
 
         public async void AddRangeAsync(ICollection<TEntity> entities)
         {
-        try
-            {
-                 DbContext.Set<TEntity>().AddRange(entities);
-                await DbContext.SaveChangesAsync();
-            } 
-            catch(Exception exception)
-            {
-                throw;
-            }
+            DbContext.Set<TEntity>().AddRange(entities);
+            await DbContext.SaveChangesAsync();
         }
-
     }
+
 }
+
