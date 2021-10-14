@@ -11,7 +11,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8134FD9B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerPlant.Tests", "PowerPlant.Tests\PowerPlant.Tests.csproj", "{C9E99C2B-F794-4B97-9913-0CD57A33DA9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerPlant.WebUI", "PowerPlant.WebUI\PowerPlant.WebUI.csproj", "{0B03C0E5-DCAB-4511-AFE7-24B14C6DFC2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerPlant.WebUI", "PowerPlant.WebUI\PowerPlant.WebUI.csproj", "{0B03C0E5-DCAB-4511-AFE7-24B14C6DFC2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{51973737-7E99-4C35-A797-277610C29D89}"
+	ProjectSection(SolutionItems) = preProject
+		databaseScript.sql = databaseScript.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

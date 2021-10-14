@@ -20,9 +20,42 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="%2a%2a\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="%2a%2a\**" />
+    <EmbeddedResource Remove="%2a%2a\**" />
+    <EntityDeploy Remove="%2a%2a\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="%2a%2a\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="%2a%2a/%2a.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="%2a%2a/%2a.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EntityDeploy Remove="%2a%2a/%2a.edmx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\%2a%2a" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Controllers\ProductionController.cs" />
+    <Compile Include="Infrastructure\HostedService\GeneratorHostedService.cs" />
+    <Compile Include="Infrastructure\HostedService\QuartzHostedService.cs" />
+    <Compile Include="Infrastructure\Jobs\JobFactory.cs" />
+    <Compile Include="Infrastructure\Jobs\JobSchedule.cs" />
+    <Compile Include="Infrastructure\Jobs\ReportProductionJob.cs" />
+    <Compile Include="Pages\Error.cshtml.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Startup.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,7 +63,46 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BackgroundServices\" />
+    <None Include="ClientApp\React\build\asset-manifest.json" />
+    <None Include="ClientApp\React\build\favicon.ico" />
+    <None Include="ClientApp\React\build\index.html" />
+    <None Include="ClientApp\React\build\logo192.png" />
+    <None Include="ClientApp\React\build\logo512.png" />
+    <None Include="ClientApp\React\build\manifest.json" />
+    <None Include="ClientApp\React\build\robots.txt" />
+    <None Include="ClientApp\React\build\static\css\2.bb4a888e.chunk.css" />
+    <None Include="ClientApp\React\build\static\css\2.bb4a888e.chunk.css.map" />
+    <None Include="ClientApp\React\build\static\js\2.d659641e.chunk.js" />
+    <None Include="ClientApp\React\build\static\js\2.d659641e.chunk.js.LICENSE.txt" />
+    <None Include="ClientApp\React\build\static\js\2.d659641e.chunk.js.map" />
+    <None Include="ClientApp\React\build\static\js\3.6f4b65c8.chunk.js" />
+    <None Include="ClientApp\React\build\static\js\3.6f4b65c8.chunk.js.map" />
+    <None Include="ClientApp\React\build\static\js\main.40d1a2c1.chunk.js" />
+    <None Include="ClientApp\React\build\static\js\main.40d1a2c1.chunk.js.map" />
+    <None Include="ClientApp\React\build\static\js\runtime-main.87a35abf.js" />
+    <None Include="ClientApp\React\build\static\js\runtime-main.87a35abf.js.map" />
+    <None Include="ClientApp\React\package-lock.json" />
+    <None Include="ClientApp\React\package.json" />
+    <None Include="ClientApp\React\public\favicon.ico" />
+    <None Include="ClientApp\React\public\index.html" />
+    <None Include="ClientApp\React\public\manifest.json" />
+    <None Include="ClientApp\React\public\robots.txt" />
+    <None Include="ClientApp\React\README.md" />
+    <None Include="ClientApp\React\src\App.test.tsx" />
+    <None Include="ClientApp\React\src\App.tsx" />
+    <None Include="ClientApp\React\src\components\Header.tsx" />
+    <None Include="ClientApp\React\src\components\Layout.tsx" />
+    <None Include="ClientApp\React\src\components\Production\Context.tsx" />
+    <None Include="ClientApp\React\src\components\Production\Production.tsx" />
+    <None Include="ClientApp\React\src\index.tsx" />
+    <None Include="ClientApp\React\src\logo.svg" />
+    <None Include="ClientApp\React\src\react-app-env.d.ts" />
+    <None Include="ClientApp\React\src\reportWebVitals.ts" />
+    <None Include="ClientApp\React\src\setupTests.ts" />
+    <None Include="ClientApp\React\src\utils\GlobalStyle.ts" />
+    <None Include="ClientApp\React\src\utils\variables.ts" />
+    <None Include="ClientApp\React\tsconfig.json" />
+    <None Include="ClientApp\React\yarn.lock" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

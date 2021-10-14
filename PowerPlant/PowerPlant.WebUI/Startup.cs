@@ -32,7 +32,7 @@ namespace PowerPlant.WebUI
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/build";
+                configuration.RootPath = "ClientApp/React/build";
             });
 
             services.ConfigureInfrastructure(Configuration);
@@ -44,14 +44,14 @@ namespace PowerPlant.WebUI
             services.AddSingleton<QuartzJobRunner>();
 
             services.AddScoped<ReportProductionJob>();
-            services.AddSingleton(new JobSchedule(jobType: typeof(ReportProductionJob), cronExpression: "0 0 * * *")); //0/40 * * * * ? -> 40 s
+            services.AddSingleton(new JobSchedule(jobType: typeof(ReportProductionJob), cronExpression: "0 0 * * * ?")); //0/40 * * * * ? -> 40 s
 
             #endregion
 
             #region Hosted services
 
             services.AddHostedService<GeneratorHostedService>();
-            services.AddHostedService<QuartzHostedService>();
+            //services.AddHostedService<QuartzHostedService>();
 
             #endregion
         }
@@ -83,9 +83,10 @@ namespace PowerPlant.WebUI
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "ClientApp/React";
 
                 if (env.IsDevelopment())
                 {

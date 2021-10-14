@@ -10,6 +10,7 @@ using PowerPlant.Infrastructure.Services.AutoFillDataServices;
 using PowerPlant.Infrastructure.Services.MailService;
 using PowerPlant.Infrastructure.Services.MailService.Models;
 using PowerPlant.Infrastructure.Services.ProductionLogerService;
+using PowerPlant.Infrastructure.Services.ProductionPagedServices;
 
 namespace PowerPlant.Infrastructure
 {
@@ -29,6 +30,7 @@ namespace PowerPlant.Infrastructure
 
             services.AddScoped<IProductionRepositoryAsync, ProductionRepositoryAsync>();
 
+            services.AddScoped<IProductionPagedService, ProductionPagedService>();
             services.AddSingleton<IProductionLoggerService, EFProductionLoggerService>();
             services.AddSingleton<IGeneratorBus, GeneratorBus>();
 

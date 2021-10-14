@@ -13,10 +13,15 @@ namespace PowerPlant.Infrastructure.Persistence
 
         public DbSet<Production> Productions { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<DatesRange> DatesRange { get; set; }
+        public DbSet<RowsCount> RowsCount { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            modelBuilder.Entity<DatesRange>(_ => _.HasNoKey().ToView("DatesRange"));
+            modelBuilder.Entity<RowsCount>(_ => _.HasNoKey().ToView("RowsCount"));
         }
     }
 }
